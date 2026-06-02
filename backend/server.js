@@ -5,6 +5,9 @@ const dotenv = require('dotenv');
 //ADDED as part of T1.3
 const authRoutes = require('./routes/auth');
 
+//ADDED as part of T2.3
+const cargoRoutes = require('./routes/cargo'); // Add this line
+
 // Load environment variables
 dotenv.config();
 
@@ -21,6 +24,9 @@ app.get('/health', (req, res) => {
 
 //ADDED as part of T1.3
 app.use('/api', authRoutes);
+
+//ADDED as part of T2.3
+app.use('/api', cargoRoutes); 
 
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI)
