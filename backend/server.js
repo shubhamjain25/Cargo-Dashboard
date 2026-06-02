@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
+//ADDED as part of T1.3
+const authRoutes = require('./routes/auth');
+
 // Load environment variables
 dotenv.config();
 
@@ -15,6 +18,9 @@ app.use(express.json());
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'Server is operational' });
 });
+
+//ADDED as part of T1.3
+app.use('/api', authRoutes);
 
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI)
