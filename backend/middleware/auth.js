@@ -12,4 +12,27 @@ const requireAdmin = (req, res, next) => {
     next();
 };
 
-module.exports = { requireAdmin };
+
+// Verify the JWT Token
+const verifyToken = (req, res, next) => {
+    // Expecting the token in the header as: "Bearer <token>"
+    const authHeader = req.header('Authorization');
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
+
+    try {
+        // Verify token against the secret key
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        // Attach the decoded payload (which contains the user's ID and role) to the request
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Invalid or expired token.' });
+    }
+};
+
+module.exports = { verifyToken, requireAdmin };
