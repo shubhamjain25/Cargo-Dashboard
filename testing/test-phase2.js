@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const API_URL = 'http://localhost:8000';
-// Adjust path to look in the root folder from the testing folder
-const MANIFEST_PATH = path.join(__dirname, '../manifest.txt'); 
+// Adjust path to look in the the testing folder
+const MANIFEST_PATH = path.join(__dirname, 'manifest.txt'); 
 
 async function runPhase2Tests() {
     console.log("🚀 Starting Phase 2 Automated Tests...\n");
