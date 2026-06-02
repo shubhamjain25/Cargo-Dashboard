@@ -3,7 +3,7 @@ backend/node_modules/
 backend/.env
 
 # Future Next.js app
-node_modules/
-.next/
-.env.local
-.env
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/.env

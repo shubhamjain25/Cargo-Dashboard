@@ -12,7 +12,7 @@ const cargoRoutes = require('./routes/cargo'); // Add this line
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Middleware to parse JSON payloads
 app.use(express.json());
