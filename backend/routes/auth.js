@@ -34,7 +34,17 @@ router.post('/signup', async (req, res) => {
         });
 
         await newUser.save();
-        res.status(201).json({ message: 'User created successfully', role });
+
+        // Generate JWT token for the new user
+        const payload = {
+            sub: newUser._id.toString(),
+            email: newUser.email,
+            role: newUser.role
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+        res.status(201).json({ message: 'User created successfully', token, role });
 
     } catch (error) {
         console.error(error);
@@ -61,11 +71,12 @@ router.post('/login', async (req, res) => {
 
         // Generate JWT containing the user's role
         const payload = {
-            id: user._id,
+            sub: user._id.toString(),
+            email: user.email,
             role: user.role
         };
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         res.status(200).json({ token, role: user.role });
 
