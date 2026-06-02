@@ -60,18 +60,18 @@ router.post('/upload', verifyToken, requireAdmin, upload.single('manifest'), asy
             let weight = parseFloat(splitData[0].trim());
             const destination = splitData[1].trim();
 
-            // Business Rule 1: Sector-7 Multiplier
+            // Destination Specified Rule
             if (destination.includes('Sector-7')) {
                 weight = weight * 1.45;
+                weight = Math.round(weight);
+                if (!isPrime(weight)) {
+                    validRecords.push({ id, weight, destination, createdAt });
+                }
             }
-
-            // Business Rule 2: Rounding
-            weight = Math.round(weight);
-
-            // Business Rule 3: Prime Rejection
-            if (!isPrime(weight)) {
+            else{
                 validRecords.push({ id, weight, destination, createdAt });
-            }
+            }           
+            
         }
 
         // Insert all valid records into the database
