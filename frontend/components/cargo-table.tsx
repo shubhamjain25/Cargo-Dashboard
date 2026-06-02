@@ -73,5 +73,61 @@ export function CargoTable({ data, isLoading }: CargoTableProps) {
     );
   }
 
-  return (<div></div>);
+  if (displayData.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-64 text-muted-foreground">
+        No cargo data available.
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[120px]">Cargo ID</TableHead>
+            <TableHead>Destination</TableHead>
+            <TableHead className="text-right">
+              Weight ({isAdmin ? "KG" : "LBS"})
+            </TableHead>
+            <TableHead className="text-right">Created</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {displayData.map((item) => (
+            <TableRow
+              key={item._id || item.id}
+              className={
+                item.destination.toLowerCase() === "earth"
+                  ? "bg-muted/50"
+                  : undefined
+              }
+            >
+              <TableCell className="font-mono font-semibold">{item.id}</TableCell>
+              <TableCell className="font-medium">
+                {item.destination}
+                {item.destination.toLowerCase() === "earth" && (
+                  <span className="ml-2 text-xs text-muted-foreground">
+                    (pinned)
+                  </span>
+                )}
+              </TableCell>
+              <TableCell className="text-right font-mono">
+                {item.displayWeight}{" "}
+                <span className="text-muted-foreground text-xs">
+                  {item.weightUnit}
+                </span>
+              </TableCell>
+              <TableCell className="text-right text-sm text-muted-foreground">
+                {item.createdAt
+                  ? new Date(item.createdAt).toLocaleDateString()
+                  : "N/A"}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
 }
