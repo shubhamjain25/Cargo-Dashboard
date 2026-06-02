@@ -1,0 +1,9 @@
+# Backend
+backend/node_modules/
+backend/.env
+
+# Future Next.js app
+node_modules/
+.next/
+.env.local
+.env
